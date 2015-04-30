@@ -1,0 +1,75 @@
+var express = require('express');
+var router = express.Router();
+//var LoginModel = require('../models/login');
+var jwt = require('jwt-simple');
+var bodyParser = require('body-parser');
+
+router.post("/login", function(req,res)
+{
+   console.log (req.body.username);
+
+   var username = req.body.username || '';
+   var password = req.body.password || '';
+
+   /*
+   if (username == '' || password == '') {
+     res.status(401);
+     res.json({
+       "status": 401,
+       "message": "Invalid credentials"
+     });
+     return;
+   }
+   */
+
+   //creamos un objeto con los datos del login
+   var loginData = {
+         username : req.body.username,
+         passport : req.body.passport,
+         apikey : ''
+   };
+
+   // TODO. consultar si existe en user_gui
+   /*if (!dbUserObj) { // If authentication fails, we send a 401 back
+     res.status(401);
+     res.json({
+       "status": 401,
+       "message": "Invalid credentials"
+     });
+     return;
+   }*/
+
+   // TODO. leer el rol del usuario
+   var dbUserObj = { // spoofing a userobject from the DB.
+     name: 'sumo',
+     role: 'admin',
+     username: 'sumo'
+   };
+
+   res.json(genToken(dbUserObj));
+
+
+
+
+});
+
+// private method
+function genToken(user) {
+  var expires = expiresIn(7); // 7 days
+  var token = jwt.encode({
+    exp: expires
+  }, require('../config/secret')());
+
+  return {
+    token: token,
+    expires: expires,
+    user: user
+  };
+}
+
+function expiresIn(numDays) {
+  var dateObj = new Date();
+  return dateObj.setDate(dateObj.getDate() + numDays);
+}
+
+module.exports = router;
