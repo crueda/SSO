@@ -9,6 +9,33 @@ var Log = require('log');
 var fs = require('fs');
 var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
 
+/**
+ * @api {post} /validate/ Validate token
+ * @apiName PostValidate
+ * @apiGroup Validate
+ *
+ * @apiDescription Validate SUMO token
+ * @apiSampleRequest http://sumo.kyroslbs.com:3000/validate
+ * @apiParam {String} token Token
+ * @apiSuccess {String} message message with result information
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *         "message": "Token OK"
+ *     }
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 400 Bad request
+ *     {
+ *       "message": "Invalid token"
+ *     }
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 401 Not authorized
+ *     {
+ *       "message": "Token Expired"
+ *     }
+ */
+
   router.post("/validate", function(req,res)
   {
     var token = req.query.token || '';
@@ -23,7 +50,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
              res.status(401);
              res.setHeader('Content-Type', 'text/plain');
              res.json({
-               "status": 401,
+               "status": 400,
                "message": "Invalid token"
              });
              return;
@@ -38,7 +65,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
 
             res.status(400);
             res.json({
-              "status": 400,
+              "status": 401,
               "message": "Token Expired"
             });
             return;
@@ -83,22 +110,22 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
         });
 
       } catch (err) {
-        res.status(500);
+        res.status(400);
         res.json({
           //"status": 500,
           //"message": "Oops something went wrong",
-          "status": 401,
-          "message": "Invalid Token or Key"
+          "status": 400,
+          "message": "Invalid Token"
         });
      }
 
     }
     else
     {
-      res.status(401);
+      res.status(400);
       res.json({
-        "status": 401,
-        "message": "Invalid Token or Key"
+        "status": 400,
+        "message": "Invalid Token"
       });
       return;
     }

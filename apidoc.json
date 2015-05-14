@@ -1,0 +1,7 @@
+{
+  "name": "SUMO Single-Sign-On",
+  "version": "0.1.0",
+  "description": "SSO for SUMO project",
+  "title": "Kyros api for SUMO project",
+  "url" : "http://sumo.kyroslbs.com:3000/login"
+}

@@ -9,6 +9,36 @@ var Log = require('log');
 var fs = require('fs');
 var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
 
+/**
+ * @api {post} /login/ Login to Single-SignOn platform
+ * @apiName PostLogin
+ * @apiGroup Login
+ *
+ * @apiDescription Login to SUMO SSO
+ * @apiSampleRequest http://sumo.kyroslbs.com:3000/login
+ * @apiParam {String} username Username
+ * @apiParam {String} password Password (SHA256)
+ * @apiSuccess {String} message message with token information
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *         "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0MzIyMjE4Njk1NTcsImlzcyI6InN1bW8iLCJyb2xlIjoiYWRtaW5pc3RyYXRvciJ9.3lHHWqKgeeEdX7XyvRV2BHA9YXJJ4u9UaeI5eXpTxGY",
+ *         "expires": 1432221869557,
+ *         "user": "my_username",
+ *         "role": "my_role"
+ *     }
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 401 Not authorized
+ *     {
+ *       "message": "Invalid user"
+ *     }
+ * @apiErrorExample {json} Error-Response:
+ *     HTTP/1.1 401 Not authorized
+ *     {
+ *       "message": "Invalid credentials"
+ *     }
+ */
   router.post("/login", function(req,res)
   {
     var username = req.query.username || '';
