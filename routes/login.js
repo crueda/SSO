@@ -8,7 +8,6 @@ var crypto = require('crypto');
 var Log = require('log');
 var fs = require('fs');
 var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
-//var log = new Log('debug', fs.createWriteStream('/Users/Carlos/Workspace/SUMO/SSO/sso.log'));
 
   router.post("/login", function(req,res)
   {
@@ -62,6 +61,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
          roleDB = dbUser[0].role;
 
          var passwordDBsha256 = crypto.createHash('sha256').update(passwordDB).digest("hex");
+         //log.debug('Password:'+passwordDBsha256);
 
          if (password!=passwordDBsha256) {
            log.debug('Invalid credentials');
@@ -89,15 +89,15 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
      "error": err
    });
  }
-
-
 });
 
 // private method
 function genToken(username, role) {
   var expires = expiresIn(7); // 7 days
   var token = jwt.encode({
-    exp: expires
+    exp: expires,
+    iss: username,
+    role: role
   }, require('../config/secret')());
 
   return {

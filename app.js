@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var login = require('./routes/login');
+var validate = require('./routes/validate');
 var kyrosapi = require('./routes/kyrosapi');
 
 //necesario para utilizar los verbos put y delete en formularios
@@ -54,6 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Zona desmilitarizada
 app.use('/', login);
+app.use('/', validate);
 
 // AUTENTICACION TOKEN
 app.all('/*', [require('./middlewares/validateRequest')]);
