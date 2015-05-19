@@ -54,7 +54,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
        res.status(401);
        res.setHeader('Content-Type', 'text/plain');
        res.json({
-         "status": 401,
+         //"status": 401,
          "message": "Invalid credentials"
        });
        return;
@@ -70,7 +70,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
        if (dbUser==null) {
          res.status(500);
          res.json({
-           "status": 500,
+           //"status": 500,
            "message": "Oops something went wrong :(",
          });
          return;
@@ -98,7 +98,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
            res.status(401);
            res.setHeader('Content-Type', 'text/plain');
            res.json({
-             "status": 401,
+             //"status": 401,
              "message": "Invalid credentials"
            });
            //return;
@@ -114,9 +114,9 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
  } catch (err) {
    res.status(500);
    res.json({
-     "status": 500,
+     //"status": 500,
      "message": "mmmm ... something went wrong",
-     "error": err
+     //"error": err
    });
  }
 });

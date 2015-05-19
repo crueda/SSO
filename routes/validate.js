@@ -22,7 +22,8 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
- *         "message": "Token OK"
+ *         "user": "my_username"
+ *         "role": "my_role"
  *     }
  * @apiErrorExample {json} Error-Response:
  *     HTTP/1.1 400 Bad request
@@ -50,7 +51,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
              res.status(401);
              res.setHeader('Content-Type', 'text/plain');
              res.json({
-               "status": 400,
+               //"status": 401,
                "message": "Invalid token"
              });
              return;
@@ -63,9 +64,9 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
           if (decoded.exp <= Date.now()) {
             log.debug('Token Expired');
 
-            res.status(400);
+            res.status(401);
             res.json({
-              "status": 401,
+              //"status": 401,
               "message": "Token Expired"
             });
             return;
@@ -90,7 +91,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
               res.status(400);
               res.setHeader('Content-Type', 'text/plain');
               res.json({
-                "status": 401,
+                //"status": 401,
                 "message": "Invalid user"
               });
               return;
@@ -101,8 +102,11 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
 
               res.status(200);
               res.json({
-                "status": 200,
-                "message": "Token OK",
+                //"status": 200,
+                //"message": "Token OK",
+                user: decoded.iss,
+                role: decoded.role
+
               });
               return;
             }
@@ -114,7 +118,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
         res.json({
           //"status": 500,
           //"message": "Oops something went wrong",
-          "status": 400,
+          //"status": 400,
           "message": "Invalid Token"
         });
      }
@@ -124,7 +128,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
     {
       res.status(400);
       res.json({
-        "status": 400,
+        //"status": 400,
         "message": "Invalid Token"
       });
       return;

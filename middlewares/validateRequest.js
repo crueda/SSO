@@ -9,31 +9,42 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
 module.exports = function(req, res, next) {
 
   var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
-  var key = (req.body && req.body.x_key) || (req.query && req.query.x_key) || req.headers['x-key'];
+  //var key = (req.body && req.body.x_key) || (req.query && req.query.x_key) || req.headers['x-key'];
 
-  if (token || key) {
+  if (token) {
     try {
+      if (token == '') {
+         log.debug('Invalid token');
+         res.status(401);
+         res.setHeader('Content-Type', 'text/plain');
+         res.json({
+           //"status": 400,
+           "message": "Invalid token"
+         });
+         return;
+      }
+
       var decoded = jwt.decode(token, require('../config/secret.js')());
 
       // Comprobar la expiracion del token
       if (decoded.exp <= Date.now()) {
-        log.info('Token Expired para:'+key);
+        log.info('Token Expired');
 
         res.status(400);
         res.json({
-          "status": 400,
+          //"status": 400,
           "message": "Token Expired"
         });
         return;
       }
 
       // Comprobar la existencia del usuario
-      var userData = {username:key};
+      var userData = {username:decoded.iss};
       UserModel.getUser(userData,function(error, dbUser) {
           if (dbUser==null) {
             res.status(500);
             res.json({
-              "status": 500,
+              //"status": 500,
               "message": "Oops something went wrong :(",
             });
             return;
@@ -44,7 +55,7 @@ module.exports = function(req, res, next) {
             res.status(401);
             res.setHeader('Content-Type', 'text/plain');
             res.json({
-              "status": 401,
+              //"status": 401,
               "message": "Invalid user"
             });
             return;
@@ -56,19 +67,19 @@ module.exports = function(req, res, next) {
       });
 
     } catch (err) {
-    res.status(500);
+    res.status(401);
     res.json({
       //"status": 500,
       //"message": "Oops something went wrong",
-      "status": 401,
+      //"status": 401,
       "message": "Invalid Token or Key",
-      "error": err
+      //"error": err
     });
    }
   } else {
     res.status(401);
     res.json({
-      "status": 401,
+      //"status": 401,
       "message": "Invalid Token or Key"
     });
     return;
