@@ -33,7 +33,7 @@ module.exports = function(req, res, next) {
         res.status(400);
         res.json({
           //"status": 400,
-          "message": "Token Expired"
+          "message": "Token expired"
         });
         return;
       }
@@ -72,7 +72,7 @@ module.exports = function(req, res, next) {
       //"status": 500,
       //"message": "Oops something went wrong",
       //"status": 401,
-      "message": "Invalid Token or Key",
+      "message": "Invalid token",
       //"error": err
     });
    }
@@ -80,7 +80,7 @@ module.exports = function(req, res, next) {
     res.status(401);
     res.json({
       //"status": 401,
-      "message": "Invalid Token or Key"
+      "message": "Invalid token"
     });
     return;
   }
