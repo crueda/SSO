@@ -10,15 +10,9 @@ log file por defecto en /var/log/sumo_api_rest.log
 
 ## Running
 
-2 formas de arrancar:
-
-1. En modo http, en puerto local 3000:
-
 nohup npm start &
 
-2. En modo https, en puerto local 3000:
-
-nuhup node app.js &
+modo https, en puerto local 3000:
 
 
 ## Usage

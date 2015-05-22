@@ -1,12 +1,20 @@
+var PropertiesReader = require('properties-reader');
+var properties = PropertiesReader('./sso.properties');
+
+// Definición del log
+var fs = require('fs');
+var Log = require('log');
+var log = new Log('debug', fs.createWriteStream(properties.get('main.log.file')));
+
 //llamamos al paquete mysql que hemos instalado
 var mysql = require('mysql'),
 //creamos la conexion a nuestra base de datos con los datos de acceso de cada uno
 connection = mysql.createConnection(
     {
-        host: '192.168.3.204',
-        user: 'root',
-        password: 'dat1234',
-        database: 'sumoSSO'
+        host: properties.get('bbdd.mysql.ip') ,
+        user: properties.get('bbdd.mysql.user') ,
+        password: properties.get('bbdd.mysql.passwd') ,
+        database: properties.get('bbdd.mysql.name')
     }
 );
 

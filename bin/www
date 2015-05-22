@@ -3,23 +3,45 @@
 /**
  * Module dependencies.
  */
+var PropertiesReader = require('properties-reader');
+var properties = PropertiesReader('./sso.properties');
+
+// Definición del log
+var fs = require('fs');
+var Log = require('log');
+var log = new Log('debug', fs.createWriteStream(properties.get('main.log.file')));
 
 var app = require('../app');
 var debug = require('debug')('nodeapi:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '3006');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+//var server = http.createServer(app);
+
+
+var options = {
+  key: fs.readFileSync(properties.get('ssl.key.file')),
+  cert: fs.readFileSync(properties.get('ssl.cert.file'))
+  //key: fs.readFileSync('/Users/Carlos/Workspace/SUMO/SSO/bin/key.pem'),
+  //cert: fs.readFileSync('/Users/Carlos/Workspace/SUMO/SSO/bin/key-cert.pem')
+};
+//var server = https.createServer(options, app).listen(443);
+var server = https.createServer(options, app);
+
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
