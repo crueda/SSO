@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var selfSignedHttps = require('self-signed-https')
+//var selfSignedHttps = require('self-signed-https')
 
 var login = require('./routes/login');
 var validate = require('./routes/validate');
@@ -97,6 +97,6 @@ app.use(function(err, req, res, next) {
 });
 
 //selfSignedHttps(app).listen(443, '0.0.0.0')
-selfSignedHttps(app).listen(3000, '0.0.0.0')
+//selfSignedHttps(app).listen(3000, '0.0.0.0')
 
 module.exports = app;
