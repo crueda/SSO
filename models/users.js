@@ -24,7 +24,7 @@ userModel.getUser = function(userData,callback)
         {
             if(error)
             {
-                callback(null, null);
+                callback(error, null);
                 //throw error;
             }
             else
