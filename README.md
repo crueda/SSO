@@ -16,7 +16,7 @@ log file por defecto en /var/log/sumo_api_rest.log
 
 nohup npm start &
 
-2. En modo https, en puerto local 443:
+2. En modo https, en puerto local 3000:
 
 nuhup node app.js &
 

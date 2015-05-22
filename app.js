@@ -96,6 +96,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-selfSignedHttps(app).listen(443, '0.0.0.0')
+//selfSignedHttps(app).listen(443, '0.0.0.0')
+selfSignedHttps(app).listen(3000, '0.0.0.0')
 
 module.exports = app;
