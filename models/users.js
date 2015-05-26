@@ -28,6 +28,7 @@ userModel.getUser = function(userData,callback)
     if (connection)
     {
         var sql = 'SELECT USERNAME as username, PASSWORD as password, ROLE as role FROM USER WHERE USERNAME = ' + connection.escape(userData.username);
+        log.debug ("Query:" + sql);
         connection.query(sql, function(error, row)
         {
             if(error)

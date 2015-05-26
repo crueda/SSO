@@ -71,7 +71,7 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
          res.status(500);
          res.json({
            //"status": 500,
-           "message": "Oops something went wrong :(",
+           "message": "Oops something went wrong :( ... " + error,
          });
          return;
        }
