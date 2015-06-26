@@ -30,10 +30,10 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-var options = {
-  key: fs.readFileSync(properties.get('ssl.key.file')),
-  cert: fs.readFileSync(properties.get('ssl.cert.file'))
-};
+//var options = {
+//  key: fs.readFileSync(properties.get('ssl.key.file')),
+//  cert: fs.readFileSync(properties.get('ssl.cert.file'))
+//};
 //var server = https.createServer(options, app);
 
 

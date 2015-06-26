@@ -5,9 +5,23 @@ var bodyParser = require('body-parser');
 var UserModel = require('../models/users');
 var crypto = require('crypto');
 
-var Log = require('log');
+// Fichero de propiedades
+var PropertiesReader = require('properties-reader');
+var properties = PropertiesReader('./sso.properties');
+
+// Definición del log
 var fs = require('fs');
-var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
+var log = require('tracer').console({
+    transport : function(data) {
+        //console.log(data.output);
+        fs.open(properties.get('main.log.file'), 'a', 0666, function(e, id) {
+            fs.write(id, data.output+"\n", null, 'utf8', function() {
+                fs.close(id, function() {
+                });
+            });
+        });
+    }
+});
 
 /**
  * @api {post} /login/ Login to Single-SignOn platform
@@ -41,8 +55,10 @@ var log = new Log('debug', fs.createWriteStream('/var/log/sso.log'));
  */
   router.post("/login", function(req,res)
   {
-    var username = req.query.username || '';
-    var password = req.query.password || '';
+    log.info ("Procesando POST de login");
+
+    var username = req.query.username || req.body.username || '';
+    var password = req.query.password || req.body.password || '';
 
     log.info('Peticion de login. username:'+username + ' - password:'+password);
 
