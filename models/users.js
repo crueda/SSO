@@ -6,17 +6,31 @@ var fs = require('fs');
 var Log = require('log');
 var log = new Log('debug', fs.createWriteStream(properties.get('main.log.file')));
 
-//llamamos al paquete mysql que hemos instalado
-var mysql = require('mysql'),
-//creamos la conexion a nuestra base de datos con los datos de acceso de cada uno
+var dbConfig = {
+  host: properties.get('bbdd.mysql.ip') ,
+  user: properties.get('bbdd.mysql.user') ,
+  password: properties.get('bbdd.mysql.passwd') ,
+  database: properties.get('bbdd.mysql.name'),
+    connectionLimit: 50,
+    queueLimit: 0,
+    waitForConnection: true
+};
+
+var mysql = require('mysql');
+
+// Crear la conexion a la base de datos
+/*
 connection = mysql.createConnection(
     {
-        host: properties.get('bbdd.mysql.ip') ,
-        user: properties.get('bbdd.mysql.user') ,
-        password: properties.get('bbdd.mysql.passwd') ,
-        database: properties.get('bbdd.mysql.name')
+      host: properties.get('bbdd.mysql.ip') ,
+      user: properties.get('bbdd.mysql.user') ,
+      password: properties.get('bbdd.mysql.passwd') ,
+      database: properties.get('bbdd.mysql.name')
     }
 );
+*/
+
+var connection = mysql.createPool(dbConfig);
 
 //creamos un objeto para ir almacenando todo lo que necesitemos
 var userModel = {};
