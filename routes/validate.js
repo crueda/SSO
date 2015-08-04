@@ -29,7 +29,7 @@ var log = require('tracer').console({
  * @apiGroup Validate
  *
  * @apiDescription Validate SUMO token
- * @apiSampleRequest http://sumo.kyroslbs.com:3000/validate
+ * @apiSampleRequest https://sumo.kyroslbs.com/validate
  * @apiParam {String} token Token
  * @apiSuccess {String} message message with result information
  *

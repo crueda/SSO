@@ -29,7 +29,7 @@ var log = require('tracer').console({
  * @apiGroup Login
  *
  * @apiDescription Login to SUMO SSO
- * @apiSampleRequest http://sumo.kyroslbs.com:3000/login
+ * @apiSampleRequest https://sumo.kyroslbs.com/login
  * @apiParam {String} username Username
  * @apiParam {String} password Password (SHA256)
  * @apiSuccess {String} message message with token information
