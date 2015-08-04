@@ -57,8 +57,8 @@ var log = require('tracer').console({
   {
     log.info ("Procesando POST de login");
 
-    var username = req.query.username || req.body.username || '';
-    var password = req.query.password || req.body.password || '';
+    var username = req.query.username || req.body.username ||  req.params.username || '';
+    var password = req.query.password || req.body.password ||  req.params.password || '';
 
     log.info('Peticion de login. username:'+username + ' - password:'+password);
 
@@ -77,7 +77,7 @@ var log = require('tracer').console({
     }
 
    // Authorize the user to see if s/he can access our resources
-   var userData = {username:req.query.username};
+   var userData = {username:username};
 
    //var dbUserObj =
    var passwordDB = '';
@@ -120,7 +120,7 @@ var log = require('tracer').console({
            //return;
          }
          else {
-           log.debug('Generando token');
+           log.debug('Login OK - Generando token');
            res.json(genToken(username, roleDB));
          }
      }
