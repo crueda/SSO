@@ -53,7 +53,8 @@ var log = require('tracer').console({
 
   router.post("/validate", function(req,res)
   {
-    var token = req.query.token || '';
+    //var token = req.query.token || '';
+    var token = req.body.token || req.query.token || req.params.token || '';
 
     //var token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
     log.info('Peticion de validacion del token:'+token);
